@@ -3,42 +3,25 @@
 <h3>Screen Management</h3>
 
 <div class="screen-management">
-  <div class="add-screen">
-    <label> Name
-      <input type="text" bind:value="name" />
-    </label>
-    <button>Create Screen</button>
-  </div>
+    <AddScreenForm />
+    <ScreenList />
 </div>
 
 <script>
   
-  import firebase from "helpers/firebase";
-  
-  const db = firebase.database();
-  
+  import AddScreenForm from "components/AddScreenForm.html";
+  import ScreenList from "components/ScreenList.html";
+  import screens from "helpers/screens";
+
   
   export default {
     
     data() {
       return {
-        name: ""
+
       }
     },
     
-    methods: {
-    
-      addScreen(e) {
-        e.preventDefault();
-        let { name } = this.get();
-        if (name.length === 0) return;
-        
-        // todo: add screen via it's name here
-        // db.ref("screens") ... or somethign
-      }  
-      
-    }
-    
+    components: { AddScreenForm, ScreenList, }
   }
-  
 </script>

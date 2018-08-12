@@ -1,0 +1,42 @@
+
+<ul>
+  {#each $screens as screen }
+    <li>
+      <a href="{`/screens/${screen.name}`}">{screen.name}</a>
+    </li>
+  {/each}
+</ul>
+
+<style>
+  
+  ul {
+    margin: 0 0;
+  }
+  
+  li {
+    
+  }
+  
+  li a {
+    padding: 0.5rem 1rem;
+  }
+  
+</style>
+
+<script>
+
+  import screens from "helpers/screens";
+
+  export default {
+    
+    data() {
+      return {}
+    },
+    
+    
+    oncreate() {
+      
+    }
+  }
+
+</script>

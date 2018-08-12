@@ -1,0 +1,96 @@
+
+<div class="add-screen">
+  
+  <div class="uri-section">
+    <code>/screens/<span class="url">{ uri.length > 0 ? uri : "<enter a name>" }</span></code>
+  </div>
+
+  <input type="text" placeholder="Enter a Name" bind:value="name" />
+
+
+  <button on:click="addScreen(event)">Create{name.length > 0 ? ` '${name}'` : ""}</button>
+  
+
+  {#if screenRecentlyAdded}
+    <div class="notification">Screen <b>{lastAddedScreenName}</b> was added.</div>
+  {/if}
+</div>
+
+<style>
+  
+  .add-screen {
+    padding: 1rem 0rem;
+  }
+  
+  .uri-section {
+    padding: 0.5rem 0rem;
+    display: block;
+  }
+
+  .url {
+    display: inline-block;
+    font-weight: 600;
+  }
+  
+  button {
+    justify-self: flex-end;
+  }
+</style>
+
+<script>
+  
+  import screens from "helpers/screens";
+
+  
+  export default {
+    
+    
+    data() {
+      return {
+        name: "",
+        timeoutID: null,
+        screenRecentlyAdded: false,
+        lastAddedScreenName: "",
+      }
+    },
+    
+    computed: {
+      uri: ({name}) => name.toLowerCase().replace(/ /gi, "-"),
+    },
+    
+    methods: {
+    
+      addScreen(e) {
+        e.preventDefault();
+        const that = this;
+        let { name, uri } = this.get();
+        
+        if (name.length === 0) return;
+        screens.add({ name, uri }).then(() => that.postAdd(name));
+      },
+      
+      postAdd() {
+        const notificationDuration = 5000;
+        let { name, timeoutID } = this.get();
+        
+        this.set({ 
+          name: "",
+          screenRecentlyAdded: true,
+          lastAddedScreenName: name,
+        });
+        
+        const clearedState = { screenRecentlyAdded: false, lastAddedScreenName: "", };
+        
+        if (timeoutID !== null) {
+          window.clearTimeout(timeoutID);
+        }
+        
+        timeoutID = window.setTimeout(() => this.set(clearedState), notificationDuration);
+        this.set({ timeoutID })
+      }
+      
+    }
+    
+  }
+  
+</script>
