@@ -1,0 +1,38 @@
+<svelte:component this={Page} {pageData} />
+
+<script>
+  /* global URLSearchParams */
+  
+  // systems
+  import Router from "helpers/router";
+  
+  // import our routes
+  import indexRoutes from "routes/index.js";
+  // import authenticationRoutes from "routes/authentication.js";
+  // import dashboardRoutes from "routes/dashboard.js";
+  
+  // pages
+  import Loading from "pages/Loading.html";
+  import NotFound from "pages/404.html";
+  
+  
+  export default {
+    
+    data() {
+      return {
+        Page: Loading,
+        pageData: {},
+      }
+    },
+    
+    oncreate() {
+      
+      indexRoutes.init(this);
+      
+      Router.setNotFoundRoute(this, NotFound);
+      Router.start();
+    }
+    
+  };
+  
+</script>
