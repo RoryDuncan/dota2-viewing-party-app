@@ -2,7 +2,10 @@
 <ul>
   {#each $screens as screen }
     <li>
-      <a href="{`/screens/${screen.name}`}">{screen.name}</a>
+      <article class="screen">
+        <h1 class="screen-name"><span class="screen-icon material-icons">airplay</span> {screen.name}</h1>
+        <a class="screen-link" target="_blank" href="{`/screens/${screen.uri}`}">{`/screens/${screen.uri}`}</a>
+      </article>
     </li>
   {/each}
 </ul>
@@ -11,14 +14,30 @@
   
   ul {
     margin: 0 0;
-  }
-  
-  li {
-    
+    padding: 0 0;
+    list-style: none;
   }
   
   li a {
     padding: 0.5rem 1rem;
+  }
+  
+  .screen {
+    padding: 1rem 1rem;
+    border: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .screen-name {
+    margin: 0 0;
+    padding: 0.5rem 0;
+  }
+  
+  .screen-icon {
+    vertical-align: middle;
+    margin-right: 1rem;
   }
   
 </style>
