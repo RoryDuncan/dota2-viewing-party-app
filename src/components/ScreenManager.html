@@ -1,0 +1,44 @@
+
+
+<h3>Screen Management</h3>
+
+<div class="screen-management">
+  <div class="add-screen">
+    <label> Name
+      <input type="text" bind:value="name" />
+    </label>
+    <button>Create Screen</button>
+  </div>
+</div>
+
+<script>
+  
+  import firebase from "helpers/firebase";
+  
+  const db = firebase.database();
+  
+  
+  export default {
+    
+    data() {
+      return {
+        name: ""
+      }
+    },
+    
+    methods: {
+    
+      addScreen(e) {
+        e.preventDefault();
+        let { name } = this.get();
+        if (name.length === 0) return;
+        
+        // todo: add screen via it's name here
+        // db.ref("screens") ... or somethign
+      }  
+      
+    }
+    
+  }
+  
+</script>
