@@ -11,13 +11,17 @@
 </div>
 
 <script>
+
+  import opendota from "helpers/opendota";
+  
   
   export default {
     data() {
       return {
-        heroes: [],
+        heroes: opendota.getHeroes(),
       }
-    }
+    },
+    
   }
   
 </script>

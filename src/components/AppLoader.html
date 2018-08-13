@@ -1,0 +1,36 @@
+{#if App === null}
+  <p>App not found.</p>
+{:else}
+  <svelte:component this={App} />
+{/if}
+
+<script>
+  
+  import Dota2Logo from "apps/Dota2Logo.html";
+  import InternationalVideo from "apps/InternationalVideo.html";
+  import HeroSlideshow from "apps/HeroSlideshow.html";
+  
+  // create a dictionary of our routes
+  const apps = {
+    "logo": Dota2Logo,
+    "international-video": InternationalVideo,
+    "hero-slideshow": HeroSlideshow,
+  }
+  
+  export default {
+    
+    data() {
+      return {
+        App: null,
+      }
+    },
+    
+    oncreate() {
+      var appName = this.options.data.pageData;
+      const App = apps[appName];
+      if (App) this.set({ App });
+    }
+    
+  }
+  
+</script>
