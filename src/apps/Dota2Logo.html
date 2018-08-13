@@ -1,5 +1,5 @@
 <main>
-  <img src="/images/dota2-logo.png" />
+  <img src="/images/dota2-logo.png" alt="baka" />
 </main>
 
 <style>
@@ -16,7 +16,9 @@
   img {
     margin: auto auto;
     opacity: 0.5;
-    animation: 2s fadeIn ease-out;
+    animation: 2s fadeIn ease-out, 3s linear oscillateOpacity infinite alternate 2s;
+    pointer-events: none;
+    user-select: none;
   }
   
   @keyframes fadeIn {
@@ -24,9 +26,22 @@
       opacity: 0;
     }
     
+    
     to {
       opacity: 0.5;
     }
+  }
+  
+  @keyframes oscillateOpacity {
+    
+    from {
+        opacity: 0.5;
+    }
+    
+    to {
+        opacity: 0.85;
+    }
+    
   }
   
   @keyframes hueshift {
