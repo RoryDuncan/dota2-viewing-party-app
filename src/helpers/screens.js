@@ -11,15 +11,12 @@ const add = (data) => {
 };
 
 
-const remove = (screenRef) => {
-  return screensRef.ref(screenRef).remove();
-  
-  // todo
-  
+const remove = (screenRefID) => {
+  return db.ref(`screens/${screenRefID}`).remove();
 };
 
-const update = (screenRef, data) => {
-  return screensRef.ref(screenRef).update(data);
+const update = (screenRefID, data) => {
+  return db.ref(`screens/${screenRefID}`).update(data);
 };
 
 export default {

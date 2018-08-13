@@ -1,0 +1,69 @@
+{#if screen !== null}
+  <div class="selected-screen">
+    <h2 class="screen-title">{screen.name} <span class="deselect material-icons" on:click="fire('deselect')">close</span></h2>
+    <div class="selected-screen-content">
+      
+      <button on:click="deleteScreen()">Delete {screen.name}</button>
+      
+    </div>
+  </div>
+{:else}
+  <aside class="empty">
+    Select a screen
+  </aside>
+{/if}
+
+<style>
+  .selected-screen {
+    border: 1px solid #000;
+    padding: 1rem 1rem;
+    height: 100%;
+  }
+  
+  .empty {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    opacity: 0.5;
+  }
+  
+  .screen-title {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .deselect {
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  
+  import screens from "helpers/screens";
+  
+  export default {
+    
+    data() {
+      return {
+        screen: null,
+      }
+    },
+    
+    methods: {
+      deleteScreen() {
+        const { screen } = this.get();
+        const { name, id } = screen;
+        console.log(`Attempting to remove ${name} / ${id}`);
+        if (window.confirm(`Are you sure you want to delete screen '${name}'?`)) {
+          this.fire("deselect");
+          screens.remove(id);
+        }
+      }
+      
+    },
+    
+  }
+  
+</script>

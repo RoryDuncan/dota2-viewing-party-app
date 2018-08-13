@@ -1,21 +1,52 @@
 
-<ul>
-  {#each $screens as screen }
-    <li>
-      <article class="screen">
-        <h1 class="screen-name"><span class="screen-icon material-icons">airplay</span> {screen.name}</h1>
-        <a class="screen-link" target="_blank" href="{`/screens/${screen.uri}`}">{`/screens/${screen.uri}`}</a>
-      </article>
-    </li>
-  {/each}
-</ul>
+<div class="container">
+  <ul class="screens-list" ref:list>
+    {#each $screens as screen }
+      <li>
+        <article class="screen">
+          <div class="screen-title" on:click="select(screen.id)">
+              <h1 class="screen-name"><span class="screen-icon material-icons">airplay</span> {screen.name}</h1>
+          </div>
+          <div class="screen-content">
+          </div>
+          <a class="screen-link" target="_blank" href="{`/screens/${screen.uri}`}">{`/screens/${screen.uri}`}</a>
+        </article>
+      </li>
+    {/each}
+  </ul>
+  <div class="selected-screen-settings">
+    <EditScreenForm ref:selectedScreen screen={selectedScreen} />
+  </div>
+</div>
 
 <style>
   
-  ul {
+  .container {
+    display: flex;
+    flex: 0 1 50%;
+    align-items: stretch;
+  }
+  
+  .selected-screen-settings {
+
+    width: 100%;
+  }
+  
+  .screens-list {
+    display: block;
+    width: 100%;
     margin: 0 0;
     padding: 0 0;
     list-style: none;
+  }
+  
+  .screens-list li {
+    display: block;
+    margin: 0rem 0.5rem 0.5rem 0rem;
+  }
+  
+  .screens-list li:last-of-type {
+    margin-bottom: 0;
   }
   
   li a {
@@ -23,11 +54,23 @@
   }
   
   .screen {
+    width: 100%;
     padding: 1rem 1rem;
     border: 1px solid #000;
     display: flex;
-    align-items: center;
+    flex: 0 1 auto;
     justify-content: space-between;
+    align-items: center;
+    
+  }
+
+  
+  .screen-title {
+    cursor: pointer;
+  }
+  
+  .selected {
+    border: 1px solid transparent;
   }
   
   .screen-name {
@@ -35,27 +78,45 @@
     padding: 0.5rem 0;
   }
   
-  .screen-icon {
-    vertical-align: middle;
-    margin-right: 1rem;
+  .screen-link {
+    justify-self: flex-end;
   }
   
+  .screen-icon {
+    margin-right: 1rem;
+  }
 </style>
 
 <script>
 
-  import screens from "helpers/screens";
+  import screens from "helpers/screens";;
+  import EditScreenForm from "components/EditScreenForm.html";
 
   export default {
     
     data() {
-      return {}
+      return {
+        selectedScreen: null,
+      }
     },
     
     
     oncreate() {
+      let that = this;
+      this.refs.selectedScreen.on("deselect", (event) => that.set({ selectedScreen: null, }))
+    },
+    
+    methods: {
       
-    }
+      select(id) {
+        const { screens } = this.store.get();
+        const selectedScreen = screens.find(f => f.id === id) || null;
+        this.set({ selectedScreen, });
+      }
+      
+    },
+    
+    components: { EditScreenForm, }
   }
 
 </script>
