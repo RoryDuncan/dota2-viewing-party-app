@@ -60,6 +60,7 @@ typings/
 # next.js build output
 .next
 
+.env
 # output bundle file
 public/scripts/bundle.js
 public/stylesheets/main.css
