@@ -1,0 +1,61 @@
+{#if App === null}
+  <h3>Screen does not exist.</h3>
+{:else}
+  <svelte:component this={App} />
+{/if}
+
+
+<script>
+  
+  import apps from "helpers/apps";
+  
+  export default {
+    
+    data() {
+      return {
+        screenURI: "",
+        appName: "",
+        App: null,
+      }
+    },
+    
+    oncreate() {
+      
+      var screenURI = this.options.data.pageData;
+      this.set({ screenURI });
+      const { screens } = this.store.get();
+      
+      this.setAppFromScreenName(screenURI, screens)
+      
+      const listener = this.store.on("state", ({changed, current}) => {
+        if (changed.screens) {
+          this.setAppFromScreenName(screenURI, current.screens)
+        }
+      });
+
+			// listeners are not automatically removed — cancel
+			// them to prevent memory leaks
+			this.on('destroy', listener.cancel);
+    },
+    
+    methods: {
+      
+      setAppFromScreenName(screenURI, screens) {
+
+
+        const screen = screens.find(s => s.uri === screenURI) || null;
+        
+        if (screen === null) {
+          return;
+        }
+        
+        const appName = screen.app;
+        const App = apps.byName(appName);
+        
+        this.set({appName, App})
+      }
+    }
+    
+  }
+  
+</script>

@@ -19,7 +19,9 @@
 <style>
   
   .add-screen {
-    padding: 1rem 0rem;
+    padding: 1rem 2rem;
+    background-color: var(--panel-background);
+    margin-bottom: 1rem;
   }
   
   .uri-section {
@@ -40,11 +42,11 @@
 <script>
   
   import screens from "helpers/screens";
+  import apps from "helpers/apps";
 
   
   export default {
-    
-    
+
     data() {
       return {
         name: "",
@@ -66,7 +68,7 @@
         let { name, uri } = this.get();
         
         if (name.length === 0) return;
-        screens.add({ name, uri }).then(() => that.postAdd(name));
+        screens.add({ name, uri, app: apps.getDefaultApp(), }).then(() => that.postAdd(name));
       },
       
       postAdd() {

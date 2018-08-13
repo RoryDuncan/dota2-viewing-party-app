@@ -6,16 +6,7 @@
 
 <script>
   
-  import Dota2Logo from "apps/Dota2Logo.html";
-  import InternationalVideo from "apps/InternationalVideo.html";
-  import HeroSlideshow from "apps/HeroSlideshow.html";
-  
-  // create a dictionary of our routes
-  const apps = {
-    "logo": Dota2Logo,
-    "international-video": InternationalVideo,
-    "hero-slideshow": HeroSlideshow,
-  }
+  import apps from "helpers/apps";
   
   export default {
     
@@ -27,8 +18,8 @@
     
     oncreate() {
       var appName = this.options.data.pageData;
-      const App = apps[appName];
-      if (App) this.set({ App });
+      const App = apps.byName(appName);
+      if (App !== null) this.set({ App });
     }
     
   }

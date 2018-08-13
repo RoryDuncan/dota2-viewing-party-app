@@ -3,6 +3,7 @@ import Router from "helpers/router";
 // pages
 import Index from "pages/Index.html";
 import AppLoader from "components/AppLoader.html";
+import Screen from "components/Screen.html";
 
 
 const router = new Router("index");
@@ -15,15 +16,11 @@ router.route("/app/:appname", context => router.view.set({
   pageData: context.params.appname
 }));
 
-// router.route("/loading", context => router.view.set({ Page: Loading }));
+router.route("/screens/:screen", context => router.view.set({ 
+  Page: Screen, 
+  pageData: context.params.screen
+}));
 
-// router.route("/hiring", (context) => {
-//   router.view.set({ Page: Hiring })
-// })
-
-// router.route("/login", (context) => {
-//   router.view.set({ Page: Login })
-// })
 
 
 export default router;
