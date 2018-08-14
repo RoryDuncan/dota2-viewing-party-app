@@ -1,7 +1,11 @@
+<svelte:head>
+  <title>{screenName}</title>
+</svelte:head>
+
 {#if App === null}
   <h3>Screen does not exist.</h3>
 {:else}
-  <svelte:component this={App} />
+  <svelte:component this={App} {screen} />
 {/if}
 
 
@@ -13,6 +17,8 @@
     
     data() {
       return {
+        screen: null,
+        screenName: "",
         screenURI: "",
         appName: "",
         App: null,
@@ -50,9 +56,11 @@
         }
         
         const appName = screen.app;
-        const App = apps.byName(appName);
+        const screenName = screen.name || appName;
+        const App = apps.getAppByName(appName);
         
-        this.set({appName, App})
+        
+        this.set({appName, screenName, App, screen })
       }
     }
     

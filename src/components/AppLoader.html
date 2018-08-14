@@ -18,7 +18,7 @@
     
     oncreate() {
       var appName = this.options.data.pageData;
-      const App = apps.byName(appName);
+      const App = apps.getAppByName(appName);
       if (App !== null) this.set({ App });
     }
     

@@ -7,7 +7,7 @@
         <label>Active App
           <select ref:apps bind:value="screen.app" on:change="setApp()">
             {#each apps as app}
-              <option value="{app}">{app}</option>
+              <option value="{app.id}">{app.title}</option>
             {/each}
           </select>
         </label>
@@ -72,7 +72,7 @@
     data() {
       return {
         screen: null,
-        apps: apps.getAppNames(),
+        apps: apps.getApps(),
         
       }
     },
@@ -89,11 +89,12 @@
       },
       
       setApp() {
-
-        const selectedApp = this.refs.apps.value;
+        const appID = this.refs.apps.value;
+        const { id, title, settings,} = apps.getAppByID(appID);
+        const appData = { id, title, settings,};
         const { screen } = this.get();
         
-        screens.setApp(screen.id, selectedApp);
+        screens.setApp(screen.id, appData);
       }
       
     },
