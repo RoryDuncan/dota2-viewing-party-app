@@ -91,7 +91,7 @@
       setApp() {
         const appID = this.refs.apps.value;
         const { id, title, settings,} = apps.getAppByID(appID);
-        const appData = { id, title, settings,};
+        const appData = { id, name, settings,};
         const { screen } = this.get();
         
         screens.setApp(screen.id, appData);

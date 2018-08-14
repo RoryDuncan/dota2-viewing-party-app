@@ -5,25 +5,25 @@ import HeroSlideshow from "apps/HeroSlideshow/Index.html";
 // we register all our apps here
 const apps = [
   {
-    title: "Dota 2 Logo",
+    name: "Dota 2 Logo",
     id: "logo",
-    app: Dota2Logo,
+    component: Dota2Logo,
     editor: null,
     settings: {
       logoWithText: false,
     },
   },
   {
-    title: "TI8 Video Backdrop",
+    name: "TI8 Video Backdrop",
     id: "international-video",
-    app: InternationalVideo,
+    component: InternationalVideo,
     editor: null,
     settings: {},
   },
   {
-    title: "Hero Slideshow",
+    name: "Hero Slideshow",
     id: "hero-slideshow",
-    app: InternationalVideo,
+    component: InternationalVideo,
     editor: null,
     settings: {},
   }
