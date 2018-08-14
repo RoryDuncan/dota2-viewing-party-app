@@ -68,7 +68,9 @@
         let { name, uri } = this.get();
         
         if (name.length === 0) return;
-        screens.add({ name, uri, app: apps.getDefaultApp(), }).then(() => that.postAdd(name));
+        let app = apps.getDefaultApp();
+        app = { name: app.name, id:app.id, settings: app.settings, };
+        screens.add({ name, uri, app, }).then(() => that.postAdd(name));
       },
       
       postAdd() {

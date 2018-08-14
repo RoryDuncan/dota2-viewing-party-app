@@ -11,6 +11,11 @@
             {/each}
           </select>
         </label>
+        <div class="app-settings">
+          {#if editor}
+            <svelte:component this={editor} screenID={screen.id} app={screen.app} settings={screen.app.settings}  />
+          {/if}
+        </div>
       </div>
       
       <button on:click="deleteScreen()">Delete {screen.name}</button>
@@ -57,6 +62,11 @@
     padding: 1rem 0;
   }
   
+  .app-settings {
+    margin-top: 1rem;
+    padding: 1rem 1rem;
+  }
+  
   select {
     padding: 0.5rem 1rem;
   }
@@ -73,7 +83,19 @@
       return {
         screen: null,
         apps: apps.getApps(),
-        
+        editor: null,
+      }
+    },
+    
+    onstate({changed, current}) {
+      
+      if (changed.screen && current.screen !== null) {
+        const screen = current.screen;
+        const app = apps.getAppByID(screen.app.id);
+        if (app) {
+          const editor = app.editor;
+          this.set({ editor, })
+        }
       }
     },
     
@@ -88,13 +110,12 @@
         }
       },
       
-      setApp() {
+      setApp(value) {
         const appID = this.refs.apps.value;
         const { screen } = this.get();
-        
-        const { id, name, settings,} = apps.getAppByID(appID);
+        const { id, name, settings, editor, } = apps.getAppByID(appID);
         const appData = { id, name, settings,};
-        
+        this.set({ editor })
         screens.setApp(screen.id, appData);
       }
       

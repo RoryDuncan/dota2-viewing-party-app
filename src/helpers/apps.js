@@ -2,13 +2,17 @@ import Dota2Logo from "apps/Dota2Logo/Index.html";
 import InternationalVideo from "apps/InternationalVideo/Index.html";
 import HeroSlideshow from "apps/HeroSlideshow/Index.html";
 
+import Dota2LogoEditor from "apps/Dota2Logo/Edit.html";
+import InternationalVideoEditor from "apps/InternationalVideo/Edit.html";
+import HeroSlideshowEditor from "apps/HeroSlideshow/Edit.html";
+
 // we register all our apps here
 const apps = [
   {
     name: "Dota 2 Logo",
     id: "logo",
     component: Dota2Logo,
-    editor: null,
+    editor: Dota2LogoEditor,
     settings: {
       logoWithText: false,
     },
@@ -17,14 +21,14 @@ const apps = [
     name: "TI8 Video Backdrop",
     id: "international-video",
     component: InternationalVideo,
-    editor: null,
+    editor: InternationalVideoEditor,
     settings: {},
   },
   {
     name: "Hero Slideshow",
     id: "hero-slideshow",
     component: InternationalVideo,
-    editor: null,
+    editor: HeroSlideshowEditor,
     settings: {},
   }
 ];

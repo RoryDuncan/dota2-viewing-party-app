@@ -17,14 +17,19 @@ screensRef.on('value', (snapshot) => {
   
   // convert our screens dictionary into a list
   const dict = snapshot.val();
-  const keys = Object.keys(dict);
-  const screens = keys.map(id => {
-    let value = dict[id];
-    return Object.assign({ id, }, value);
-  })
-
-  console.log("screens in store:", screens)
-  store.set({ screens, });
+  if (dict) {
+    const keys = Object.keys(dict);
+    const screens = keys.map(id => {
+      let value = dict[id];
+      return Object.assign({ id, }, value);
+    })
+  
+    console.log("screens in store:", screens)
+    store.set({ screens, });
+  }
+  else {
+    store.set({ screens: [], });
+  }
 });
 
 const app = new App({

@@ -1,0 +1,65 @@
+<h4>Select the image that will display:</h4>
+<div class="selections" ref:root>
+  <div class='option {settings.logoWithText ? "selected" : ""}' on:click="select(true)">
+    <img src="/images/dota2-logo-and-text.png" alt="baka"  />
+  </div>
+  <div class='option {!settings.logoWithText ? "selected" : ""}'  on:click="select(false)">
+    <img src="/images/dota2-logo.png" alt="baka" />
+  </div>
+</div>
+
+
+<style>
+  
+  .selections {
+    display: flex;
+    flex: 0 1 50%;
+    align-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  
+  .selections .option {
+    height: auto;
+    cursor: pointer;
+    padding: 1rem 1rem;
+    text-align: center;
+  }
+  
+  .selections .option:hover {
+    background-color: rgba(255,255,255,0.05);
+  }
+  
+  .selections .option.selected {
+    background-color: rgba(255,255,255,0.1);
+  }
+  
+  img {
+    display: block;
+    max-height: 5rem;
+    width: auto;
+  }
+  
+  
+  
+</style>
+
+
+<script>
+
+  import screens from "helpers/screens";
+
+  export default {
+    
+    methods: {
+      
+      select(value) {
+        const { app, screenID } = this.get();
+        app.settings.logoWithText = value;
+        this.set({ app });
+        screens.setApp(screenID, app);
+      }
+    }
+    
+  }
+</script>
