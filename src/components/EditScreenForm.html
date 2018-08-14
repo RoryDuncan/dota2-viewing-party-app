@@ -4,10 +4,10 @@
     <div class="selected-screen-content">
       
       <div class="settings">
-        <label>Active App
-          <select ref:apps bind:value="screen.app" on:change="setApp()">
+        <label>App
+          <select ref:apps bind:value="screen.app.id" on:change="setApp()">
             {#each apps as app}
-              <option value="{app.id}">{app.title}</option>
+              <option value="{app.id}">{app.name}</option>
             {/each}
           </select>
         </label>
@@ -90,9 +90,10 @@
       
       setApp() {
         const appID = this.refs.apps.value;
-        const { id, title, settings,} = apps.getAppByID(appID);
-        const appData = { id, name, settings,};
         const { screen } = this.get();
+        
+        const { id, name, settings,} = apps.getAppByID(appID);
+        const appData = { id, name, settings,};
         
         screens.setApp(screen.id, appData);
       }
