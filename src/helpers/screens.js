@@ -19,8 +19,8 @@ const update = (screenRefID, data) => {
   return db.ref(`screens/${screenRefID}`).update(data);
 };
 
-const setApp = (screenRefID, appname) => {
-  return db.ref(`screens/${screenRefID}/app`).set(appname);
+const setApp = (screenRefID, app) => {
+  return db.ref(`screens/${screenRefID}/app`).set(app);
 }
 
 export default {

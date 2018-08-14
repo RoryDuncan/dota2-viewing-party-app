@@ -1,22 +1,45 @@
-import Dota2Logo from "apps/Dota2Logo.html";
-import InternationalVideo from "apps/InternationalVideo.html";
-import HeroSlideshow from "apps/HeroSlideshow.html";
+import Dota2Logo from "apps/Dota2Logo/Index.html";
+import InternationalVideo from "apps/InternationalVideo/Index.html";
+import HeroSlideshow from "apps/HeroSlideshow/Index.html";
 
-const apps = {
-  "logo": Dota2Logo,
-  "international-video": InternationalVideo,
-  "hero-slideshow": HeroSlideshow,
-};
+// we register all our apps here
+const apps = [
+  {
+    title: "Dota 2 Logo",
+    id: "logo",
+    app: Dota2Logo,
+    editor: null,
+    settings: {
+      logoWithText: false,
+    },
+  },
+  {
+    title: "TI8 Video Backdrop",
+    id: "international-video",
+    app: InternationalVideo,
+    editor: null,
+    settings: {},
+  },
+  {
+    title: "Hero Slideshow",
+    id: "hero-slideshow",
+    app: InternationalVideo,
+    editor: null,
+    settings: {},
+  }
+];
 
 
-const byName = (name) => apps[name] || null;
+const getAppByName = (name) => apps.find(app => app.name === name) || null;
+const getAppByID = (id) => apps.find(app => app.id === id) || null;
 const getApps = () => apps;
-const getAppNames = () => Object.keys(apps);
-const getDefaultApp = () => getAppNames()[0];
+const getAppNames = () => apps.map(app => app.name);
+const getDefaultApp = () => apps[0];
 
 export default {
   getDefaultApp,
   getApps,
   getAppNames,
-  byName,
+  getAppByID,
+  getAppByName,
 }

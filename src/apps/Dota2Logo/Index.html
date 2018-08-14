@@ -1,5 +1,9 @@
 <main>
-  <img src="/images/dota2-logo.png" alt="baka" />
+  {#if logoWithText}
+    <img src="/images/dota2-logo-and-text.png" alt="baka" />
+  {:else}
+    <img src="/images/dota2-logo.png" alt="baka" />
+  {/if}
 </main>
 
 <style>
@@ -65,6 +69,10 @@
 
 <script>
   export default {
-    
+    data() {
+      return {
+        logoWithText: false,
+      }
+    }
   }
 </script>
