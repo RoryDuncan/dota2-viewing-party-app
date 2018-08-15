@@ -13,7 +13,7 @@
         </label>
         <div class="app-settings">
           {#if editor}
-            <svelte:component this={editor} screenID={screen.id} app={screen.app} settings={screen.app.settings}  />
+            <svelte:component this={editor} screenID={screen.id} app={screen.app}  />
           {/if}
         </div>
       </div>
@@ -88,13 +88,15 @@
     },
     
     onstate({changed, current}) {
+      console.log("EditScreenForm state change")
       
-      if (changed.screen && current.screen !== null) {
+      if ((changed.screen || changed.app) && current.screen !== null) {
         const screen = current.screen;
         const app = apps.getAppByID(screen.app.id);
         if (app) {
           const editor = app.editor;
-          this.set({ editor, })
+          console.log("context:", screen)
+          this.set({ editor })
         }
       }
     },
@@ -115,8 +117,14 @@
         const { screen } = this.get();
         const { id, name, settings, editor, } = apps.getAppByID(appID);
         const appData = { id, name, settings,};
-        this.set({ editor })
-        screens.setApp(screen.id, appData);
+        console.log("settings app to", appData)
+        let that = this;
+        screens.setApp(screen.id, appData).then(() => {
+          console.log("post app set?")
+          that.set({ editor })
+          
+        })
+        
       }
       
     },

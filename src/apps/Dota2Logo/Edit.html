@@ -1,9 +1,9 @@
 <h4>Select the image that will display:</h4>
 <div class="selections" ref:root>
-  <div class='option {settings.logoWithText ? "selected" : ""}' on:click="select(true)">
+  <div class='option {app.settings.logoWithText ? "selected" : ""}' on:click="select(true)">
     <img src="/images/dota2-logo-and-text.png" alt="baka"  />
   </div>
-  <div class='option {!settings.logoWithText ? "selected" : ""}'  on:click="select(false)">
+  <div class='option {!app.settings.logoWithText ? "selected" : ""}'  on:click="select(false)">
     <img src="/images/dota2-logo.png" alt="baka" />
   </div>
 </div>
@@ -50,14 +50,13 @@
   import screens from "helpers/screens";
 
   export default {
-    
+
     methods: {
       
       select(value) {
         const { app, screenID } = this.get();
         app.settings.logoWithText = value;
-        this.set({ app });
-        screens.setApp(screenID, app);
+        screens.setApp(screenID, app).then(this.set({ app }));
       }
     }
     

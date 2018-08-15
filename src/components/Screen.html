@@ -5,7 +5,7 @@
 {#if AppComponent === null}
   <h3>Screen does not exist.</h3>
 {:else}
-  <svelte:component this={AppComponent} {screen}/>
+  <svelte:component this={AppComponent} settings={app.settings} {...app.settings} />
 {/if}
 
 
@@ -56,8 +56,11 @@
         }
         
         const screenName = screen.name || appName;
+        
         let app = apps.getAppByID(screen.app.id);
         const AppComponent = app.component;
+        
+        app = screen.app;
         
         this.set({app, AppComponent, screenName, screen, })
       }
