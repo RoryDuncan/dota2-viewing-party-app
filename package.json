@@ -8,7 +8,7 @@
     "build": "rollup -c",
     "watch": "rollup -c -w",
     "local": "firebase serve --port $PORT --host $IP --only hosting",
-    "populate:items": "node ./services/populate-dota2-items.js"
+    "populate:items": "node ./services/populate-items.js"
   },
   "repository": {
     "type": "git",
