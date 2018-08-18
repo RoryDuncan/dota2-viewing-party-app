@@ -1,27 +1,83 @@
 
 
-<div class="slideshow">
-  <ul>
-    {#each heroes as hero}
-      <li>
-        
-      </li>
-    {/each}
-  </ul>
-</div>
+{#if heroes === null}
+  <p>loading...</p>
+{:else}
+  <div class="slideshow">
+    <ul>
+      <HeroDetails {hero} />
+      
+    </ul>
+  </div>
+{/if}
 
+<style>
+  ul {
+    width: 100%;
+    list-style: none;
+    margin: 0 0;
+    padding: 0 0;
+    overflow: hidden;
+  }
+  
+  .hero {
+    display: block;
+  }
+</style>
 <script>
 
+  import HeroDetails from "components/HeroDetails.html";
+
   import opendota from "helpers/opendota";
-  
+  opendota.getHeroes().then(heroes => console.log(heroes));
   
   export default {
+    
+    oncreate() {
+      let that = this;
+      const { heroIndex } = this.get();
+      opendota.getHeroes().then(heroes => {
+        let hero = heroes[heroIndex];
+        that.set({ heroes, heroIndex, hero })
+        that.interval();
+        
+      });
+    },
+    
     data() {
       return {
-        heroes: opendota.getHeroes(),
+        heroes: null,
+        heroIndex: 0,
+        timerID: null,
       }
     },
     
+    methods: {
+      
+      interval() {
+        const delay = 5000;
+        let that= this;
+        let { heroIndex, heroes } = this.get();
+        
+        let timerID = window.setTimeout(() => {
+          heroIndex++;
+          let hero = heroes[heroIndex];
+          that.set({ heroIndex, hero });
+          that.interval();
+        }, delay);
+        
+        this.set({timerID})
+        
+      },
+      
+      stop() {
+        let { timerID } = this.get();
+        window.clearTimeout(timerID);
+      }
+      
+    },
+    
+    components: { HeroDetails, },
   }
   
 </script>

@@ -1,7 +1,7 @@
 {#if App === null}
   <p>App not found.</p>
 {:else}
-  <svelte:component this={App} />
+  <svelte:component this={App} settings={settings} />
 {/if}
 
 <script>
@@ -13,13 +13,15 @@
     data() {
       return {
         App: null,
+        settings: null,
       }
     },
     
     oncreate() {
-      var appName = this.options.data.pageData;
-      const App = apps.getAppByName(appName);
-      if (App !== null) this.set({ App });
+      const appID = this.options.data.pageData;
+      const app = apps.getAppByID(appID);
+      console.log(app)
+      if (app !== null) this.set({ App: app.component, settings: app.settings });
     }
     
   }

@@ -1,0 +1,68 @@
+
+<article>
+  <main>
+    <!--<img class="hero-icon" src="{imageSrc(hero.icon)}" alt="{hero.name}" />-->
+    <img class="hero-image" src="{imageSrc(hero.img)}" alt="{hero.name}" />
+    <h1 class="hero-name"> {hero.localized_name}</h1>
+    <h3 class="roles">{hero.roles.join(", ")}</h3>
+  </main>
+</article>
+
+<style>
+
+
+article {
+  font-size: 3rem;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex: 1 0 auto;
+}
+
+main {
+  margin: auto auto;
+  text-align: center;
+}
+
+  h1 {
+    text-align: center;
+  }
+  h1 img {
+    float: left;
+  }
+  
+  .hero-image {
+    margin: 0.5rem auto;
+  }
+  
+  .hero-icon {
+    display: block;
+  }
+  
+  .hero-name {
+    margin: 1rem 0 0 0;
+    font-size: 6rem;
+    line-height: 0.8em;
+    
+  }
+  
+  .roles {
+    font-size: 2rem;
+    color: #b2b2b2;
+  }
+  
+</style>
+
+<script>
+  export default {
+    
+    helpers: {
+      
+      imageSrc(path) {
+        const origin = "https://api.opendota.com";
+        return `${origin}${path}`
+      }
+      
+    }
+  }
+</script>

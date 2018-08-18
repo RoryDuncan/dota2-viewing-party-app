@@ -27,7 +27,7 @@ const apps = [
   {
     name: "Hero Slideshow",
     id: "hero-slideshow",
-    component: InternationalVideo,
+    component: HeroSlideshow,
     editor: HeroSlideshowEditor,
     settings: {},
   }
