@@ -2,9 +2,14 @@
 <article>
   <main>
     <!--<img class="hero-icon" src="{imageSrc(hero.icon)}" alt="{hero.name}" />-->
-    <img class="hero-image" src="{imageSrc(hero.img)}" alt="{hero.name}" />
-    <h1 class="hero-name"> {hero.localized_name}</h1>
-    <h3 class="roles">{hero.roles.join(", ")}</h3>
+    
+    <div class="hero-title">
+      <img class="hero-image" src="{imageSrc(hero.img)}" alt="{hero.name}" />
+      <div class="names">
+        <h1 class="hero-name"> {hero.localized_name}</h1>
+        <h3 class="roles" style='{hero.id === 8 ? "padding-left: 2rem;" : ""}'>{hero.roles.join(", ")}</h3>
+      </div>
+    </div>
   </main>
 </article>
 
@@ -20,19 +25,17 @@ article {
 }
 
 main {
-  margin: auto auto;
-  text-align: center;
+  padding: 10vh 15vw;
+  /*margin: auto 0;*/
 }
 
   h1 {
-    text-align: center;
-  }
-  h1 img {
-    float: left;
+    
   }
   
+  
   .hero-image {
-    margin: 0.5rem auto;
+    margin: 1rem 2rem 0 0;
   }
   
   .hero-icon {
@@ -49,6 +52,10 @@ main {
   .roles {
     font-size: 2rem;
     color: #b2b2b2;
+  }
+  
+  .hero-title {
+    display: flex;
   }
   
 </style>
