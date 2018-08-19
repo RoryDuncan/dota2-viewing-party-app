@@ -52,7 +52,6 @@
   import HeroDetails from "components/HeroDetails.html";
 
   import dotaData from "helpers/dotadata";
-  dotaData.getHeroes().then(heroes => console.log(heroes));
   
   export default {
     
@@ -62,7 +61,11 @@
       dotaData.getHeroesAsList().then(heroesList => {
         
         let heroes = that.shuffle(heroesList);
-        console.log("heroes shuffled into", heroes.map(h => h.localized_name).join(",\n"));
+        
+        console.groupCollapsed("Hero Order")
+        console.log(heroes.map((h, i) => `${i} ${h.localized_name}`).join(",\n"));
+        console.groupEnd("Hero Order")
+        
         let hero = heroes[heroIndex];
         that.set({ heroes, heroIndex, hero, })
         that.beginAnimating();
