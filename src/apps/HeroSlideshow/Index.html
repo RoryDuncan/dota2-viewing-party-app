@@ -59,8 +59,10 @@
     oncreate() {
       let that = this;
       const { heroIndex } = this.get();
-      dotaData.getHeroesAsList().then(heroes => {
+      dotaData.getHeroesAsList().then(heroesList => {
         
+        let heroes = that.shuffle(heroesList);
+        console.log("heroes shuffled into", heroes.map(h => h.localized_name).join(",\n"));
         let hero = heroes[heroIndex];
         that.set({ heroes, heroIndex, hero, })
         that.beginAnimating();
@@ -120,6 +122,21 @@
           that.set({ heroIndex, hero, animationProgress, });
           raFID = window.requestAnimationFrame(render);
         };
+      },
+      
+      shuffle(input) {
+        // fisher yates shuffle
+        let result = Array.from(input);
+        for (let i = 0, j = 0; i < result.length; i++) {
+          j = ~~(Math.random() * i);
+          
+          let itemAtJ = result[j];
+          let itemAtI = result[i];
+          // swap
+          result[j] = itemAtI;
+          result[i] = itemAtJ;
+        }
+        return result;
       },
       
       stop() {
