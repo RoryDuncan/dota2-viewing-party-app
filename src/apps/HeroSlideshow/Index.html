@@ -6,8 +6,10 @@
   <div class="slideshow">
     <ul>
       <HeroDetails {hero} />
-      
     </ul>
+  </div>
+  <div class="timer">
+    <div class="timer-bar" style="width: {timer}"></div>
   </div>
 {/if}
 
@@ -23,6 +25,27 @@
   .hero {
     display: block;
   }
+  
+  .timer {
+    position: fixed;
+    bottom: 0vh;
+    left: 0px;
+    right: 0px;
+    margin: 0 auto;
+    height: auto;
+    
+  }
+  
+  .timer-bar {
+    display: block;
+    width: 100%;
+    background-color: var(--primary-color);
+    height: 2px;
+    transition: 0.2s linear width;
+    
+  }
+
+  
 </style>
 <script>
 
@@ -39,8 +62,8 @@
       dotaData.getHeroesAsList().then(heroes => {
         
         let hero = heroes[heroIndex];
-        that.set({ heroes, heroIndex, hero })
-        that.interval();
+        that.set({ heroes, heroIndex, hero, })
+        that.beginAnimating();
         
       });
     },
@@ -50,28 +73,53 @@
         heroes: null,
         heroIndex: 0,
         timerID: null,
+        animationProgress: 0,
       }
+    },
+    
+    computed: {
+      timer: ({ animationProgress }) => Math.round(animationProgress * 100) + "%",
     },
     
     methods: {
       
-      interval() {
-        const delay = 5000;
-        let that= this;
+      beginAnimating() {
+        
+        let that = this;
         let { heroIndex, heroes } = this.get();
         
-        let timerID = window.setTimeout(() => {
+        const duration = 30000;
+        let start = null;
+        
+        let raFID = null;
+        function render(dt){
+          
+          if (start === null) start = dt;
+          const animationProgress =  (dt - start) / duration;
+          
+          if (animationProgress >= 1) {
+           window.cancelAnimationFrame(raFID);
+           nextHero();
+           return;
+          }
+          
+          that.set({ animationProgress, })
+          raFID = window.requestAnimationFrame(render);
+        
+        }
+        
+        raFID = window.requestAnimationFrame(render);
+
+        
+        const nextHero = () => {
+          start = null;
+          const animationProgress = 0;
           heroIndex++;
-          
           if (heroIndex >= heroes.length) heroIndex = 0;
-          
           let hero = heroes[heroIndex];
-          that.set({ heroIndex, hero });
-          that.interval();
-        }, delay);
-        
-        this.set({timerID})
-        
+          that.set({ heroIndex, hero, animationProgress, });
+          raFID = window.requestAnimationFrame(render);
+        };
       },
       
       stop() {

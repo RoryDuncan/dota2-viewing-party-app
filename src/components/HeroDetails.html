@@ -12,9 +12,12 @@
     </div>
     <ol class="abilities">
       {#each hero.abilities as ability}
-        <li>
-          <img src="{ability.icon}" alt="{ability.name}"/>
-          <h4>{ability.name}</h4>
+        <li class="ability">
+          <img class="ability-icon" src="{ability.icon}" alt="{ability.name}"/>
+          <div class="ability-content">
+            <h4>{ability.name}</h4>
+            <p class="ability-description">{@html ability.description}</p>
+          </div>
         </li>
       {/each}
     </ol>
@@ -23,23 +26,23 @@
 
 <style>
 
-
-article {
-  font-size: 3rem;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex: 1 0 auto;
-
-}
-
-main {
-  padding: 10vh 15vw;
-  /*margin: auto 0;*/
-}
+  
+  article {
+    font-size: 1rem;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex: 1 0 auto;
+  
+  }
+  
+  main {
+    padding: 10vh 15vw;
+    /*margin: auto 0;*/
+  }
 
   h1 {
-    
+    font-size: 3rem;
   }
   
   
@@ -68,9 +71,28 @@ main {
     align-items: center;
   }
   
-  .abilites {
-    list-type: none;
+  .abilities {
+    margin: 4rem 0 0 0;
+    padding: 0 0;
+    list-style: none;
   }
+  
+  .ability {
+    display: flex;
+    margin: 1rem 0;
+    flex: 1 0 auto;
+    align-items: flex-start;
+  }
+  
+  .ability-icon {
+    margin-right: 2rem;
+    width: auto;
+  }
+  
+  .ability-content {
+    
+  }
+  
   
 </style>
 
@@ -82,7 +104,7 @@ main {
       imageSrc(path) {
         const origin = "https://api.opendota.com";
         return `${origin}${path}`
-      }
+      },
       
     }
   }
