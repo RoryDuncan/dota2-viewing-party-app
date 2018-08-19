@@ -3,6 +3,12 @@
  
  todo: fetch image url's too
 */
+require('dotenv-safe').config()
+const firebaseApp = require("./firebase.js");
+const db = firebaseApp.database();
+const env = require('dotenv-safe').config();
+const fetch = require("node-fetch")
+const steamAPIKey = process.env.dota2webapikey;
 
 
 // mutator
@@ -14,14 +20,6 @@ const getItemImage = (item) => {
 
 const getItemImages = (items) => items.map(getItemImage);
 
-require('dotenv-safe').config()
-const firebaseApp = require("./firebase.js");
-const db = firebaseApp.database();
-
-
-const env = require('dotenv-safe').config();
-const fetch = require("node-fetch")
-const steamAPIKey = process.env.dota2webapikey;
 
 if (steamAPIKey) getItems();
 else throw new Error("Missing Steam API Key")
