@@ -30,7 +30,7 @@ const transform = {
   mergeAbilitiesToHero: (abilityData) => {
     return (hero) => {
       var abilities = Object.keys(abilityData)
-        .filter( key => key.includes(hero.name))
+        .filter( key => key.startsWith(hero.name))
         
         // fetch the data from the key
         .map(key => Object.assign({id: key}, abilityData[key]))
