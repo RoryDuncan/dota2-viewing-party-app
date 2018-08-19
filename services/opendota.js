@@ -5,6 +5,7 @@ const fetch = require("node-fetch");
 const openDotaAPI = "https://api.opendota.com/api/";
 const openDota = (action) => fetch(`${openDotaAPI}${action}`)
 
+
 const getHeroes = () =>  {
   return openDota("heroStats")
     .then(response => response.json())

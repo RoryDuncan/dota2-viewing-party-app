@@ -15,13 +15,13 @@ const dota2heroprefix = "npc_dota_hero_";
 const talentAbilityNamePrefix = "DOTA_Tooltip_ability_special_bonus_unique";
 const openDotaHeroIconOrigin = `https://api.opendota.com/apps/dota2/images/abilities/`
 
+
 // transforms
 
 const transform = {
   
-  indexOnHeroID: (list, hero) => {
-    console.log(`transforming ${hero.localized_name}`)
-    list[hero.id] = hero;
+  indexOnHeroName: (list, hero) => {
+    list[hero.name] = hero;
     return list;
   },
 
@@ -33,13 +33,14 @@ const transform = {
         .filter( key => key.includes(hero.name))
         
         // fetch the data from the key
-        .map(key => abilityData[key])
+        .map(key => Object.assign({id: key}, abilityData[key]))
         
         // don't include talent ability upgrades
         .filter(ability => !ability.desc.includes(talentAbilityNamePrefix))
         
         // fetch the keys we care about
-        .map(({ dname, hurl, desc, lore }) => ({ 
+        .map(({ dname, hurl, desc, lore, id }) => ({ 
+          id,
           name: dname, 
           hero: hurl, 
           description: desc, 
@@ -53,7 +54,7 @@ const transform = {
           const host = openDotaHeroIconOrigin
           const filetype = "png";
           const size = "lg"
-          ability.icon = `${host}${ability.hero}_${name}_${size}.${filetype}`;
+          ability.icon = `${host}${ability.id}_${size}.${filetype}`;
           return ability;
         })
         
@@ -63,9 +64,6 @@ const transform = {
     }
   },
   
-  buildAbilityIcon: (ability) => {
-    
-  }
 };
 
 
@@ -80,17 +78,21 @@ function getHeroAbilities() {
 
 async function main() {
   
-  console.log("Fetching all Hero Abilities.");
+  console.log("Fetching all Hero Abilities...");
   const heroAbilities = await getHeroAbilities()
     .then(data => data.abilitydata)
   
-  console.log("Fetching all Heroes.");
+  console.log("Fetching all Heroes...");
   await opendota.getHeroes()
+    .then( heroes => (console.log("Cleaning up Hero Names..."), heroes) )
     .then( heroes => (heroes.forEach(transform.removeNPCFromHeroName), heroes) )
+    .then( heroes => (console.log("Merging abilities onto heroes..."), heroes) )
     .then( heroes => heroes.map(transform.mergeAbilitiesToHero(heroAbilities)) )
-    .then( heroes => heroes.reduce(transform.indexOnHeroID, {}) )
+    .then( heroes => (console.log("Indexing on Hero Name..."), heroes) )
+    .then( heroes => heroes.reduce(transform.indexOnHeroName, {}) )
+    .then( heroes => (console.log("Saving to Firebase..."), heroes) )
     .then( heroMap => db.ref("dota2/heroes").set(heroMap) )
-    .then(() => Promise.resolve())
+    .then((result) => (console.log("Saved."), result))
     .catch(err => console.log(err));
     
   console.log("Done.");

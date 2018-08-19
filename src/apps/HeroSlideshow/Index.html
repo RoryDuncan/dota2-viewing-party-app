@@ -28,15 +28,16 @@
 
   import HeroDetails from "components/HeroDetails.html";
 
-  import opendota from "helpers/opendota";
-  opendota.getHeroes().then(heroes => console.log(heroes));
+  import dotaData from "helpers/dotadata";
+  dotaData.getHeroes().then(heroes => console.log(heroes));
   
   export default {
     
     oncreate() {
       let that = this;
       const { heroIndex } = this.get();
-      opendota.getHeroes().then(heroes => {
+      dotaData.getHeroesAsList().then(heroes => {
+        
         let hero = heroes[heroIndex];
         that.set({ heroes, heroIndex, hero })
         that.interval();

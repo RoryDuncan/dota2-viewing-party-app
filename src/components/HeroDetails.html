@@ -7,9 +7,17 @@
       <img class="hero-image" src="{imageSrc(hero.img)}" alt="{hero.name}" />
       <div class="names">
         <h1 class="hero-name"> {hero.localized_name}</h1>
-        <h3 class="roles" style='{hero.id === 8 ? "padding-left: 2rem;" : ""}'>{hero.roles.join(", ")}</h3>
+        <h3 class="roles" style='{hero.name[0].toLowerCase() === "j" ? "padding-left: 2rem;" : ""}'>{hero.roles.join(", ")}</h3>
       </div>
     </div>
+    <ol class="abilities">
+      {#each hero.abilities as ability}
+        <li>
+          <img src="{ability.icon}" alt="{ability.name}"/>
+          <h4>{ability.name}</h4>
+        </li>
+      {/each}
+    </ol>
   </main>
 </article>
 
@@ -22,6 +30,7 @@ article {
   height: 100vh;
   display: flex;
   flex: 1 0 auto;
+
 }
 
 main {
@@ -56,6 +65,11 @@ main {
   
   .hero-title {
     display: flex;
+    align-items: center;
+  }
+  
+  .abilites {
+    list-type: none;
   }
   
 </style>
