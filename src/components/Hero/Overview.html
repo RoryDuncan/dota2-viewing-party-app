@@ -10,17 +10,16 @@
         <h3 class="roles" style='{hero.name[0].toLowerCase() === "j" ? "padding-left: 2rem;" : ""}'>{hero.roles.join(", ")}</h3>
       </div>
     </div>
-    <ol class="abilities">
-      {#each hero.abilities as ability}
-        <li class="ability">
-          <img class="ability-icon" src="{ability.icon}" alt="{ability.name}"/>
-          <div class="ability-content">
-            <h4>{ability.name}</h4>
-            <p class="ability-description">{@html ability.description}</p>
-          </div>
-        </li>
-      {/each}
-    </ol>
+    <div class="hero-content">
+      {#if showAbilities}
+        <Abilities abilities={hero.abilities} />
+      {/if}
+      {#if showTips && hero.knownFor}
+        <div class="synopsis-container">
+          <Synopsis tip={hero.knownFor} />
+        </div>
+      {/if}
+    </div>
   </main>
 </article>
 
@@ -37,7 +36,7 @@
   }
   
   main {
-    padding: 10vh 15vw;
+    padding: 5vh 10vw;
     /*margin: auto 0;*/
   }
 
@@ -71,33 +70,33 @@
     align-items: center;
   }
   
-  .abilities {
-    margin: 4rem 0 0 0;
-    padding: 0 0;
-    list-style: none;
-  }
-  
-  .ability {
+  .hero-content {
     display: flex;
-    margin: 1rem 0;
-    flex: 1 0 auto;
-    align-items: flex-start;
+    margin: 4rem 0 0 0;
+    flex: 1 0 40%;
+    justify-content: space-between;
   }
   
-  .ability-icon {
-    margin-right: 2rem;
-    width: auto;
-  }
-  
-  .ability-content {
-    
+  .synopsis-container {
+    width: 50%;
   }
   
   
 </style>
 
 <script>
+
+  import Synopsis from "components/Hero/Synopsis.html";
+  import Abilities from "components/Hero/Abilities.html";
+
   export default {
+    
+    data() {
+      return {
+        showAbilities: true,
+        showTips: true,
+      }
+    },
     
     helpers: {
       
@@ -106,6 +105,8 @@
         return `${origin}${path}`
       },
       
-    }
+    },
+    
+    components: {  Synopsis, Abilities, }
   }
 </script>

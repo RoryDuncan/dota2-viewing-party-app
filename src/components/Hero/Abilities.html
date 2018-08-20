@@ -1,0 +1,42 @@
+<ol class="abilities">
+  {#each abilities as ability}
+    <li class="ability">
+      <img class="ability-icon" src="{ability.icon}" alt="{ability.name}"/>
+      <div class="ability-content">
+        <h4>{ability.name}</h4>
+        <p class="ability-description">{@html ability.description}</p>
+      </div>
+    </li>
+  {/each}
+</ol>
+
+<style>
+
+  .abilities {
+    margin: 0 0;
+    padding: 0 0;
+    list-style: none;
+    margin-right: 3rem;
+    
+  }
+  
+  .ability {
+    display: flex;
+    margin: 0 0 1rem 0;
+    flex: 1 0 auto;
+    align-items: flex-start;
+  }
+  
+  .ability-icon {
+    margin-right: 2rem;
+    width: auto;
+  }
+  
+  .ability-content {
+    
+  }
+  
+  .ability-description {
+    color: #b2b2b2;
+  }
+</style>

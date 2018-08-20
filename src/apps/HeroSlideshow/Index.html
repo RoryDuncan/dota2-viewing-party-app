@@ -5,7 +5,7 @@
 {:else}
   <div class="slideshow">
     <ul>
-      <HeroDetails {hero} />
+      <HeroOverview {hero} />
     </ul>
   </div>
   <div class="timer">
@@ -49,7 +49,7 @@
 </style>
 <script>
 
-  import HeroDetails from "components/HeroDetails.html";
+  import HeroOverview from "components/Hero/Overview.html";
 
   import dotaData from "helpers/dotadata";
   
@@ -58,9 +58,10 @@
     oncreate() {
       let that = this;
       const { heroIndex } = this.get();
-      dotaData.getHeroesAsList().then(heroesList => {
-        
-        let heroes = that.shuffle(heroesList);
+      dotaData.getAllHeroData().then(heroesList => {
+
+        let heroes = heroesList;
+        // let heroes = that.shuffle(heroesList);
         
         console.groupCollapsed("Hero Order")
         console.log(heroes.map((h, i) => `${i} ${h.localized_name}`).join(",\n"));
@@ -149,7 +150,7 @@
       
     },
     
-    components: { HeroDetails, },
+    components: { HeroOverview, },
   }
   
 </script>

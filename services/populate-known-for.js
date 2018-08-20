@@ -37,7 +37,7 @@ async function main(){
   console.log("Generating known-fors...");
   const tips = {};
   Object.keys(heroes).forEach((name) => {
-    tips[name] = { hero: name, tip: "TODO", videoURL: "", imageURL: "", };
+    tips[name] = { hero: name, text: "TODO", videoURL: "", imageURL: "", };
   });
   
   console.log("Saving...");
