@@ -1,0 +1,123 @@
+<h3> Twitch TV Stream Settings </h3>
+
+<div class="flex-row">
+  <label> Channel 
+  </label>
+  <input type="text" bind:value="channel" />
+  <button on:click="save()">Set</button>
+</div>
+
+<div class="flex-row slider-container">
+  <i class="material-icons">volume_down</i>
+  <input class="slider" type="range" bind:value="volume" step="0.05" min="0" max="1" on:change="volumeUpdate(event)" />
+  <i class="material-icons">volume_up</i>
+  <div class="volume-level">{volumeAsPercent}</div>
+</div>
+
+<style>
+  
+  .flex-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  
+  .slider-container {
+    padding: 1rem 1rem;
+    background-color: transparent;
+    position: relative;
+  }
+  
+  .slider-container:hover {
+    background-color: rgba(255,255,255,0.05);
+    transition: 0.2s ease-out all;
+  }
+  
+  .volume-level {
+    position: absolute;
+    display: none;
+    text-align: center;
+    color: var(--primary-color);
+    opacity: 0.75;
+    left: 0;
+    right: 0;
+    top: 0;
+    font-weight: 600;
+    
+  }
+  
+  .slider-container:hover .volume-level {
+    display: block;
+  }
+  
+  .slider {
+    
+    margin: 0 0;
+    padding: 0 0;
+    border: none;
+    margin: 1rem 0.25rem;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .slider,
+  .slider::-webkit-slider-thumb{
+		-webkit-appearance: none;
+  }
+  
+  .slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 0.5rem;
+    background-color: #111;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    border: none;
+    padding: 0;
+    width: 1em;
+    height: 1em;
+    transform: translateY(-20%);
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: var(--primary-color);
+  }
+  
+  .slider:hover {
+    cursor: pointer;
+  }
+  
+</style>
+
+<script>
+
+  import screens from "helpers/screens";
+
+  export default {
+
+    oncreate() {
+      const settings = this.options.data.app.settings;
+      this.set(settings);
+    },
+    
+    computed: {
+      
+      volumeAsPercent: ({volume}) => `${Math.round(volume * 100)}%`,
+      
+    },
+
+    methods: {
+      
+      save() {
+        const { app, channel, volume, screenID } = this.get();
+        app.settings = { channel, volume };
+        screens.setApp(screenID, app).then(this.set({ app }));
+      },
+      
+      volumeUpdate(e) {
+        this.save();
+      }
+    }
+    
+  }
+</script>

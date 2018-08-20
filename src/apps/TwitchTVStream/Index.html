@@ -1,0 +1,98 @@
+{#if channel !== null}
+  <div id="{playerID}"></div>
+{:else}
+  <h1>Invalid Channel.</h1>
+{/if}
+
+<script>
+  /* global Twitch */
+  
+  export default {
+    data() {
+      return {
+        player: null,
+        playerID: "player",
+        channel: "dota2ti",
+        width: window.innerWidth - 10,
+        height: window.innerHeight - 10,
+      }
+    },
+    
+    oncreate() {
+
+      const { channel, player } = this.get();
+      if (channel !== null && player === null) {
+        this.createPlayer()
+      }
+      
+    },
+    
+    onstate({ changed, current }) {
+      // if (changed.settings) this.updateFromSettings(current.settings);
+      if (changed.channel) this.changeChannel();
+      if (changed.volume) this.changeVolume();
+    },
+    
+    methods: {
+
+      createPlayer() {
+        const { playerID, channel, width, height } = this.get();
+        const options = { channel, width, height };
+        const player = new Twitch.Player(playerID, options);
+        player.play();
+        this.set({ player });
+        return player;
+      },
+      
+      updateFromSettings(settings) {
+
+        let { player, volume, channel } = this.get();
+
+        let hasChangedChannel = settings.channel !== channel;
+        let hasChangedVolume = settings.volume !== volume;
+        
+        if (hasChangedChannel) {
+          
+          channel = settings.channel;
+          this.set({ channel });
+          
+          if (player === null) {
+            player = this.createPlayer()
+          }
+          else {
+            player.setChannel(channel);
+          }
+        }
+        
+        if (hasChangedVolume && player !== null) 
+        {
+          volume = settings.volume;
+          this.set({ volume });
+          player.setVolume();
+        }
+        
+        
+        
+      },
+      
+      changeVolume() {
+        let { player, volume } = this.get();
+        if (player === null) {
+          player = this.createPlayer();
+        }
+        player.setVolume(volume);
+        
+      },
+      
+      changeChannel() {
+        let { player, channel } = this.get();
+        if (player === null) {
+          player = this.createPlayer();
+        }
+        
+        player.setChannel(channel);
+      },
+      
+    }
+  }
+</script>
