@@ -9,8 +9,13 @@ import TwitchTVStreamEditor from "apps/TwitchTVStream/Edit.html";
 import HeroSlideshow from "apps/HeroSlideshow/Index.html";
 import HeroSlideshowEditor from "apps/HeroSlideshow/Edit.html";
 
-import InternationalVideoEditor from "apps/InternationalVideo/Edit.html";
 import InternationalVideo from "apps/InternationalVideo/Index.html";
+import InternationalVideoEditor from "apps/InternationalVideo/Edit.html";
+
+import HeroHighlights from "apps/HeroHighlights/Index.html";
+import HeroHighlightsEditor from "apps/HeroHighlights/Edit.html";
+
+
 
 // we register all our apps here
 const apps = [
@@ -46,6 +51,16 @@ const apps = [
     component: HeroSlideshow,
     editor: HeroSlideshowEditor,
     settings: {},
+  },
+  {
+    name: "Hero Highlights",
+    id: "hero-highlights",
+    component: HeroHighlights,
+    editor: HeroHighlightsEditor,
+    settings: {
+        selectedHeroes: [],
+        highlightedHeroes: [],
+    },
   }
 ];
 

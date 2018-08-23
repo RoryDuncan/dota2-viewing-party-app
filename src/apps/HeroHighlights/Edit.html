@@ -1,0 +1,181 @@
+<div>
+  
+  <h3>Hero Highlights</h3>
+  <button on:click="toggleGrid()">Open Hero Selector</button>
+  {#if gridActive}
+    <div class="hero-grid-container">
+        <span class="close" on:click="toggleGrid()"><i class="material-icons">close</i></span>
+        {#if heroes.length > 0}
+        <h1><span class="primary">Selected</span> Heroes</h1>
+        <p>For best display, keep to a maximum of 5.</p>
+        <div class="selected-heroes hero-grid ">
+          {#each selectedHeroes as hero}
+            <div class="selected-hero grid-item grid-item--active" on:click="toggleHero(hero)">
+              <HeroIcon {hero} fit={true} />
+            </div>
+          {/each}
+        </div>
+        
+        <h1>Select Heroes</h1>
+        <div class="hero-grid">
+          {#each heroes as hero}
+            <div class="grid-item" on:click="toggleHero(hero)">
+              <HeroIcon {hero} fit={true} />
+            </div>
+          {/each}
+        </div>
+        
+      {:else}
+        <Loading />
+      {/if}
+    </div>
+  {/if}
+  
+  <button on:click="clear()">Clear All</button>
+</div>
+
+<style>
+
+  .primary {
+    color: var(--primary-color);
+  }
+
+  .hero-grid-container {
+    position: fixed;
+    top: 1vh;
+    bottom: 1vh;
+    height: 98vh;
+    overflow-y: auto;
+    left: 1vw;
+    right: 1vw;
+    background-color: #fff;
+    padding: 5vh 5vw;
+  }
+  
+  .hero-grid-container h1,
+  .hero-grid-container h2 {
+    color: #222;
+  }
+  
+  .close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+    color: #000;
+    cursor: pointer;
+    opacity: 0.5;
+    z-index: 1;
+  }
+  
+  .close:hover {
+    opacity: 1;
+  }
+
+  .hero-grid {
+    display: flex;
+    flex-flow: row wrap;
+    background-color: rgba(255,255,255,0.1);
+    align-items: center;
+  }
+  
+  .grid-item {
+    margin: 0 0;
+    width: 8%;
+    border: 4px solid transparent;
+    opacity: 0.5;
+    cursor: pointer;
+    transition: 0.3s ease-in all 0.2s;
+  }
+  
+  .grid-item--active {
+    opacity: 1;
+    width: 20%;
+  }
+  
+  .grid-item:hover {
+    opacity: 1;
+    /*border: 4px solid var(--primary-color);*/
+    transition: 0.3s ease-in all;
+  }
+  
+  
+  .selected-heroes {
+    padding: 0.5rem 0.5rem;
+    margin: 1rem 0;
+  }
+  
+  
+</style>
+
+<script>
+  import Loading from "components/Loading.html";
+  import dotaData from "helpers/dotadata";
+  import HeroIcon from "components/Hero/Icon.html";
+  import screens from "helpers/screens";
+  
+  export default {
+    
+    data() {
+      return {
+        heroes: [],
+        selectedHeroes: [],
+        selectedHighlights: [],
+      }
+    },
+    
+    oncreate() {
+      
+      const that = this;
+      const settings = this.options.data.app.settings;
+      this.set(settings);
+      dotaData.getAllHeroData().then(heroes => {
+        that.set({ heroes });
+      })
+    },
+    
+    methods: {
+      
+      toggleGrid() {
+        let { gridActive } = this.get();
+        this.set({ gridActive: !gridActive })
+      },
+      
+      
+      toggleHero(hero) {
+        
+        let { selectedHeroes, selectedHighlights } = this.get();
+        
+        if (selectedHeroes.includes(hero)) {
+          selectedHeroes = selectedHeroes.filter(h => h.name !== hero.name);
+          // remove from highlight
+          if (selectedHighlights.includes(hero)) {
+            selectedHighlights = selectedHighlights.filter(h => h.name !== hero.name);
+          }
+        }
+        else {
+          selectedHeroes.push(hero);
+        }
+        
+        this.set({ selectedHeroes, })
+        this.save()
+      },
+      
+      save() {
+        const { screenID, app, selectedHeroes, } = this.get();
+        app.settings = { selectedHeroes };
+        screens.setApp(screenID, app).then(this.set({ app }));
+      },
+      
+      clear() {
+        const selectedHeroes = [];
+        this.set({ selectedHeroes });
+        this.save();
+      }
+    },
+    
+    components: { HeroIcon, Loading, },
+    
+  }
+  
+</script>

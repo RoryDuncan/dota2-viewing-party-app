@@ -1,6 +1,8 @@
 <aside class="tip">
-  <h3>Synopsis</h3>
-  <div class="snyopsis">
+  {#if showTitle}
+    <h3>Synopsis</h3>
+  {/if}
+  <div class="synopsis {inline ? 'inline' : ''}">
     <p class="">{@html tip.text}</p>
     {#if tip.imageURL.length > 0}
       <img src="{tip.imageURL}" alt="explanatory image" />
@@ -15,8 +17,17 @@
     width: 100%;
   }
   
-  .snyopsis > p {
-    font-size: 1.2rem;
+  .synopsis {
+    
+  }
+  
+  .synopsis.inline {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .synopsis > p {
+    font-size: 1.2em;
     line-height: 1.6em;
   }
   
@@ -30,6 +41,10 @@
 
 <script>
   export default {
-    
+    data() {
+      return {
+        showTitle: true,
+      }
+    }
   }
 </script>

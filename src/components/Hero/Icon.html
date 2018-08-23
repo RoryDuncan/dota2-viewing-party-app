@@ -1,0 +1,28 @@
+<img class="hero-image {fit ? "fit" : ""}" src="{imageSrc(hero.img)}" alt="{hero.name}" />
+
+<style>
+  
+  img.fit {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+  }
+  
+</style>
+
+<script>
+  
+  export default {
+    
+    helpers: {
+      
+      imageSrc(path) {
+        const origin = "https://api.opendota.com";
+        return `${origin}${path}`;
+      },
+      
+    },
+    
+  }
+  
+</script>

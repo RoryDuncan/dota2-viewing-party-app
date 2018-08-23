@@ -1,11 +1,16 @@
-<Router />
+{#if $ready}
+  <Router />
+{:else}
+  <Loading />
+{/if}
 
 <script>
     
   import Router from "components/Router.html";
-    
+  import Loading from "components/Loading.html";
+  
   export default {
-    components: { Router, }
+    components: { Router, Loading, },
   }
     
 </script>

@@ -1,0 +1,149 @@
+<div class="container">
+  {#if selectedHeroes.length > 0}
+    <ol class="heroes">
+      {#each selectedHeroes as hero}
+        <li class="hero">
+          <HeroIcon {hero} />
+          <Titles {hero} />
+        </li>
+      {/each}
+    </ol>
+    
+    <div class="hero-highlight">
+      {#if highlightedHero} 
+        <div>
+          <Highlight tip={highlightedHero.knownFor} showTitle={false} />
+        </div>
+      {/if}
+    </div>
+  {/if}
+</div>
+
+
+<style>
+
+  ul, ol {
+    padding: 0 0;
+    margin: 0 0;
+  }
+
+  .heroes {
+    list-style: none;
+    align-items: flex-start;
+    display: flex;
+    flex-flow: row nowrap;
+    flex: 0 1 auto;
+    height: 33vh;
+
+  }
+  
+  .hero {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-flow: column nowrap;
+    font-size: 0.8rem;
+    padding: 1rem 1rem;
+    margin: auto auto;
+    height: 100%;
+    width: 20vw;
+  }
+  
+  .hero-highlight {
+    display: flex;
+    font-size: 1.3rem;
+    height: 66vh;
+    border-top: 1px solid #222;
+    background-color: #111;
+  }
+  
+  .hero-highlight > div {
+     margin: auto auto; 
+  }
+  
+</style>
+
+<script>
+
+
+  import HeroIcon from "components/Hero/Icon.html";
+  import Abilities from "components/Hero/Abilities.html";
+  import Titles from "components/Hero/Titles.html";
+  import Highlight from "components/Hero/Highlight.html";
+
+
+  export default {
+    
+    data() {
+      return {
+        
+        // viewdata
+        highlightedHeroIndex: 0,
+        highlightedHero: null,
+        selectedHeroes: [],
+      }
+    },
+    
+    oncreate() {
+      let that = this;
+      this.beginAnimating();
+    },
+    
+    onstate({ changed, current }) {
+      
+      if (changed.selectedHeroes) {
+        let { highlightedHeroIndex } = this.get()
+        if (highlightedHeroIndex > current.selectedHeroes.length) {
+          this.set({ animationIsStale: true, })
+        }
+      }
+    },
+    
+    methods: {
+      
+      beginAnimating() {
+        
+        let that = this;
+        
+        const duration = 15000;
+        let start = null;
+        
+        let raFID = null;
+        function render(dt){
+          
+          if (start === null) start = dt;
+          const animationProgress =  (dt - start) / duration;
+          let { animationIsStale } = that.get();
+          
+          if (animationIsStale || animationProgress >= 1) {
+           window.cancelAnimationFrame(raFID);
+           nextHero();
+           return;
+          }
+
+          raFID = window.requestAnimationFrame(render);
+        }
+
+        
+        const nextHero = () => {
+          const animationIsStale = false;
+          let { selectedHeroes, highlightedHeroIndex } = that.get();
+          
+          start = null;
+          const animationProgress = 0;
+          highlightedHeroIndex++;
+          if (highlightedHeroIndex >= selectedHeroes.length) highlightedHeroIndex = 0;
+          let highlightedHero = selectedHeroes[highlightedHeroIndex] || null;
+          that.set({ highlightedHeroIndex, highlightedHero, animationIsStale });
+          raFID = window.requestAnimationFrame(render);
+        };
+        
+        nextHero();
+      },
+      
+    },
+    
+    components: { HeroIcon, Highlight, Abilities, Titles, },
+    
+  }
+</script>

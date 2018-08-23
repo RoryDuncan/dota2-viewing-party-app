@@ -28,7 +28,7 @@
     },
     
     onstate({ changed, current }) {
-      // if (changed.settings) this.updateFromSettings(current.settings);
+
       if (changed.channel) this.changeChannel();
       if (changed.volume) this.changeVolume();
     },

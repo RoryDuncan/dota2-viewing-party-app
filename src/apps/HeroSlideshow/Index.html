@@ -4,9 +4,7 @@
   <p>loading...</p>
 {:else}
   <div class="slideshow">
-    <ul>
-      <HeroOverview {hero} />
-    </ul>
+    <HeroOverview {hero} centered={true} />
   </div>
   <div class="timer">
     <div class="timer-bar" style="width: {timer}"></div>
@@ -14,18 +12,12 @@
 {/if}
 
 <style>
-  ul {
-    width: 100%;
-    list-style: none;
-    margin: 0 0;
-    padding: 0 0;
-    overflow: hidden;
-  }
   
-  .hero {
-    display: block;
+  .slideshow {
+    font-size: 1rem;
+    height: 100vh;
   }
-  
+
   .timer {
     position: fixed;
     bottom: 0vh;
@@ -60,8 +52,8 @@
       const { heroIndex } = this.get();
       dotaData.getAllHeroData().then(heroesList => {
 
-        let heroes = heroesList;
-        // let heroes = that.shuffle(heroesList);
+        // let heroes = heroesList;
+        let heroes = that.shuffle(heroesList);
         
         console.groupCollapsed("Hero Order")
         console.log(heroes.map((h, i) => `${i} ${h.localized_name}`).join(",\n"));

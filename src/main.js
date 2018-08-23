@@ -11,12 +11,13 @@ const screensRef = db.ref("/screens");
 const store = new Store({
     name: "app",
     screens: [],
+    ready: false,
 });
 
 
 
 screensRef.on('value', (snapshot) => {
-  
+  const ready = true;
   // convert our screens dictionary into a list
   const dict = snapshot.val();
   if (dict) {
@@ -39,10 +40,10 @@ screensRef.on('value', (snapshot) => {
     })
   
     console.log("screens in store:", screens)
-    store.set({ screens, });
+    store.set({ screens, ready });
   }
   else {
-    store.set({ screens: [], });
+    store.set({ screens: [], ready });
   }
 });
 

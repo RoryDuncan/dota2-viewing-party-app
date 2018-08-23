@@ -1,13 +1,12 @@
 
 <article>
-  <main>
-    <!--<img class="hero-icon" src="{imageSrc(hero.icon)}" alt="{hero.name}" />-->
-    
+  <main class="{centered ? 'centered':''}">
     <div class="hero-title">
-      <img class="hero-image" src="{imageSrc(hero.img)}" alt="{hero.name}" />
-      <div class="names">
-        <h1 class="hero-name"> {hero.localized_name}</h1>
-        <h3 class="roles" style='{hero.name[0].toLowerCase() === "j" ? "padding-left: 2rem;" : ""}'>{hero.roles.join(", ")}</h3>
+      {#if showImage}
+        <HeroIcon {hero} />
+      {/if}
+      <div class="hero-names">
+        <Titles {hero} />
       </div>
     </div>
     <div class="hero-content">
@@ -27,52 +26,45 @@
 
   
   article {
-    font-size: 1rem;
-    width: 100vw;
-    height: 100vh;
+    font-size: 1em;
+    /*width: 100vw;*/
+    /*height: 100vh;*/
+    height: 100%;
     display: flex;
     flex: 1 0 auto;
   
   }
   
   main {
-    padding: 5vh 10vw;
-    /*margin: auto 0;*/
+    /*padding: 5vh 5vw;*/
+  }
+  
+  .centered {
+    margin: auto auto;
   }
 
-  h1 {
-    font-size: 3rem;
-  }
-  
   
   .hero-image {
-    margin: 1rem 2rem 0 0;
+    margin: 1em 2em 0 0;
   }
   
   .hero-icon {
     display: block;
   }
   
-  .hero-name {
-    margin: 1rem 0 0 0;
-    font-size: 6rem;
-    line-height: 0.8em;
+  .hero-names {
+    margin-left: 1rem;
     
-  }
-  
-  .roles {
-    font-size: 2rem;
-    color: #b2b2b2;
   }
   
   .hero-title {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
   
   .hero-content {
     display: flex;
-    margin: 4rem 0 0 0;
+    margin: 2rem 0 0 0;
     flex: 1 0 40%;
     justify-content: space-between;
   }
@@ -86,27 +78,21 @@
 
 <script>
 
+  import HeroIcon from "components/Hero/Icon.html";
   import Synopsis from "components/Hero/Synopsis.html";
   import Abilities from "components/Hero/Abilities.html";
+  import Titles from "components/Hero/Titles.html";
 
   export default {
     
     data() {
       return {
+        showImage: true,
         showAbilities: true,
         showTips: true,
       }
     },
     
-    helpers: {
-      
-      imageSrc(path) {
-        const origin = "https://api.opendota.com";
-        return `${origin}${path}`
-      },
-      
-    },
-    
-    components: {  Synopsis, Abilities, }
+    components: {  Synopsis, Abilities, HeroIcon, Titles, }
   }
 </script>
