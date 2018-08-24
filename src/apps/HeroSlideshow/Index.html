@@ -52,6 +52,8 @@
       const { heroIndex } = this.get();
       dotaData.getAllHeroData().then(heroesList => {
 
+        window.heroes = heroesList;
+
         // let heroes = heroesList;
         let heroes = that.shuffle(heroesList);
         
