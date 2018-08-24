@@ -58,7 +58,6 @@
         let heroes = that.shuffle(heroesList);
         
         console.groupCollapsed("Hero Order")
-        console.log(heroes.map((h, i) => `${i} ${h.localized_name}`).join(",\n"));
         console.groupEnd("Hero Order")
         
         let hero = heroes[heroIndex];
@@ -88,7 +87,7 @@
         let that = this;
         let { heroIndex, heroes } = this.get();
         
-        const duration = 30000;
+        const duration = 300;
         let start = null;
         
         let raFID = null;

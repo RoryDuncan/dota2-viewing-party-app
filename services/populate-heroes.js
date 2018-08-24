@@ -29,7 +29,9 @@ const transform = {
   
   mergeAbilitiesToHero: (abilityData) => {
     return (hero) => {
+      
       var abilities = Object.keys(abilityData)
+        
         .filter( key => key.startsWith(hero.name))
         
         // fetch the data from the key
@@ -72,6 +74,17 @@ main();
 function getHeroAbilities() {
   return fetch(heroAbilitiesEndpoint)
     .then(response => response.json())
+    .then(data => data.abilitydata)
+    .then(data => {
+      // fix data mismatch between steam and opendota
+      for (let key in data) {
+        if (key.includes("sandking")) {
+          let fixedKey = key.replace(/sandking/gi, "sand_king")
+          data[fixedKey] = data[key];
+        }
+      }
+      return data;
+    })
     .catch(err => console.log(err))
 }
 
@@ -80,7 +93,7 @@ async function main() {
   
   console.log("Fetching all Hero Abilities...");
   const heroAbilities = await getHeroAbilities()
-    .then(data => data.abilitydata)
+
   
   console.log("Fetching all Heroes...");
   await opendota.getHeroes()
